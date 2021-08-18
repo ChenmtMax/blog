@@ -1,0 +1,25 @@
+{
+    "compilerOptions": { // 编译选项
+        "target": "es2016", // 配置编译目标代码的版本标准 es2016即 es7
+        "module": "commonjs", // 我们写的 ts 代码编译完成之后到了 js 那边，js使用什么样的模块化标准。
+        // "module": "commonjs", // 配置编译目标使用的模块化标准（也可以是 es6），当前使用的是 node 环境即 commonjs标准。
+        "lib": [ // 更改环境，表示默认环境下，ts 使用的是哪个库（环境）。
+            "es2016"
+        ],
+        "outDir": "./dist", // 输出的目录在哪儿 ———— 把编译结果单独放在一个目录下。
+        "strictNullChecks": true, // 更加严格的空类型检查，防止 null 或 undefined 赋值给其他类型。
+        "removeComments": true, // 表示编译结果里移除注释。
+        "noImplicitUseStrict": true, // 编译结果中不包含 “use strict”
+        "esModuleInterop": true, // 启用es模块化标准跟非es模块交互，如 commonjs。
+        "noEmitOnError": true, // 当报错误时不生成编译结果（错误时禁止编译）。
+        "moduleResolution": "node", // 模块解析策略，设置为 node。
+        "strictPropertyInitialization": true // 属性的初始化，以严格的方式提示属性未初始化。
+    },
+    "include": [ // 表示要编译文件夹。
+        "./src" // 当前目录下的 src 文件夹里的文件。
+    ],
+    // 如果只想编译某个特定文件。
+    // "files": [ // 编译文件夹里的某个文件。
+    //     "./src/index.ts" // 好像某框架里需要的只编译一个入口文件。
+    // ]
+}

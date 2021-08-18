@@ -1,0 +1,26 @@
+1、在 webPack 的watch模式下，文件系统中的某个文件发生改变， webpack 监听到文件变化，根据配置文件对模块重新打包编译，并将打包后的代码通过简单的 JS对象保存在内存中。
+    - watch 模式下，监听到变化的模块，根据配置文件重新编译打包，打包后的代码 通过简单的 JS对象保存在内存中。
+2、webpack-dev-server 和 webpack 之间的接口交互。主要是 dev-server 的中间件 webpack-dev-middleware 和 webpack之间的交互。middleware 调用 webpack 暴露的 API 对代码进行监控，并且告诉 webpack，将代码打包到内存中。
+    - webpack-dev-server 和 webpack 之间的接口交互，中间件 webpack-dev-middleware 调用 webpack 暴露的 API对代码变化进行监控，通知 wp  保存到内存中。
+3、webpack-dev-server 对文件变化的一个监控，当我们在 配置中配置了 devServer.watchContentBase为 true 的时候，Server 会监听到这些配置文件夹中静态文件的变化，变化后会通知浏览器端对应用进行 live reload。（浏览器刷新）
+    - devServer.watchContentBase为 true，server监听并收集静态文件变化信息，通知 浏览器端对应用进行 live reload。
+4、webpack-dev-server 代码的工作，该步骤主要是通过sockjs（webpack-dev-server的依赖）在浏览器端和服务端之间建立一个 websocket 场链接，将webpack编译打包的各个阶段的状态信息告知浏览器端，同时也包括第三步中 Server 监听静态文件变化的信息。浏览器端根据这些socket消息进行不同的操作。当然 服务端传递的最主要信息还是新模块的 hash 值，后面的步骤根据这一 hash值来进行模块热替换。
+    - 通过sockjs，建立 服务端和 浏览器端之间的 websocket 长连接。
+5、
+    - 对拿到的 hash值进行比对，
+
+
+总结：核心就是客户端从服务端去拉取更新后的文件。
+dev-server 的中间件 webpack-dev-middleware 和 webpack之间的交互。
+middleware 调用 webpack 暴露的 API 对代码进行监控，并且告诉 webpack，将代码打包到内存中。
+
+webpack-dev-server的依赖 sockjs 在浏览器端和服务端之间建立一个 websocket 长连接，
+将 webpack 各个阶段的状态信息告知浏览器端（包括hash）。
+
+让浏览器端与上一次资源进行对比，对比出差异后，会通过 JsonpMainTemplate.runtime 向 webpack-dev-server 发起 ajax 请求来获取更改内容（文件列表，hash）。
+返回的是一个json，包含所有要更新的模块的hash值，获得更新列表后，浏览器端借助这些列表信息 通过 jsonp 请求获取到最新的模块代码。
+
+之后就是 hotModulPlugin 来完成了，（提供了相关的 API给开发者针对自身场景进行处理。）
+它会去对比新旧模块，决定是否更新模块，更新模块后，检查模块直接的依赖关系，连同依赖一起更新。
+
+HMR失败，会回退到 live reload 操作，也就是进行浏览器刷新来获取最新代码。
