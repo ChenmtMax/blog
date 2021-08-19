@@ -307,6 +307,7 @@ import fs from "fs";
 // 但还想获得类型检查推导，即：
 import myModule4 = require("./myModule")
 import { ArrayHelper } from "./ArrayHelper";
+import { Dictionary } from "./dictionary";
 
 
 // 扩展类型 - 接口
@@ -706,3 +707,22 @@ function mixinArray<T, K>(arr1: T[], arr2: K[]): (T | K)[] {
 }
 const resultTM = mixinArray([1, 2, 3], ["a", "b", "c"]);
 // resultTM.forEach(r => console.log(r));
+
+// blog 当前所处分支为 dictionary，记得提交
+// 8-5、练习：自定义字典类
+const dic = new Dictionary<string, number>();
+dic.set("a", 1);
+dic.set("b", 2);
+dic.set("a", 11);
+dic.set("c", 33);
+// console.log(dic.has("c"));
+dic.forEach((k, v) => {
+    console.log(`${k}:${v}`);
+})
+console.log("当前键值对数量：" + dic.size);
+console.log("删除键 b");
+dic.delete("b");
+dic.forEach((k, v) => {
+    console.log(`${k}:${v}`);
+})
+console.log("当前键值对数量：" + dic.size);
