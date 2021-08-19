@@ -715,7 +715,7 @@ dic.set("a", 1);
 dic.set("b", 2);
 dic.set("a", 11);
 dic.set("c", 33);
-// console.log(dic.has("c"));
+console.log(dic.has("c"));
 dic.forEach((k, v) => {
     console.log(`${k}:${v}`);
 })
